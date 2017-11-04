@@ -125,6 +125,21 @@ namespace CSVParser
         {
             get { return !(data == null); }
         }
+        public int Length
+        {
+            get
+            {
+                if (this.IsOpen)
+                {
+                    string[] fLines = File.ReadAllLines(data.ToString());
+                    return fLines.Length - 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
         
     }
 }
