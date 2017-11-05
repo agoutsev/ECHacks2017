@@ -12,6 +12,7 @@ namespace CSVParser
     public class CSVParser
     {
         private FileInfo data = null, metadata = null;
+        private Exception exc;
 
         public void OpenStockData(string company)
         {
@@ -104,6 +105,10 @@ namespace CSVParser
                 }
             }
             return selected;
+        }
+        public Exception getError()
+        {
+            return exc;
         }
    
         public string GetMetaData(int type)
