@@ -16,24 +16,21 @@ namespace CSVParser
         public void OpenStockData(string company)
         {
             Close();
-            string filePathData = String.Format(@"..\{0}-data.csv", company);
-            string filePathMetaData = String.Format(@"..\{0}-metadata.csv", company);
+            string filePathData = String.Format(@".\{0}-data.csv", company);
+            string filePathMetaData = String.Format(@".\{0}-metadata.csv", company);
             string csvQueryData = String.Format("https://www.quandl.com/api/v3/datasets/WIKI/{0}/data.csv?api_key=-cgVuGXX5HzSwHStGPPc", company);
             string csvQueryMetaData = String.Format("https://www.quandl.com/api/v3/datasets/WIKI/{0}/metadata.csv?api_key=-cgVuGXX5HzSwHStGPPc", company);
 
             var web = new WebClient();
             
-            try
-            {
-                web.DownloadFile(csvQueryData, filePathData);
-                web.DownloadFile(csvQueryMetaData, filePathMetaData);
-                data = new FileInfo(filePathData);
-                metadata = new FileInfo(filePathMetaData);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("File Download Error: " + ex.Message);
-            }
+            
+            
+            web.DownloadFile(csvQueryData, filePathData);
+            web.DownloadFile(csvQueryMetaData, filePathMetaData);
+            data = new FileInfo(filePathData);
+            metadata = new FileInfo(filePathMetaData);
+            
+    
 
             
         }
@@ -93,9 +90,9 @@ namespace CSVParser
             }
             return -1;
         }
-        public ArrayList GetPriceRange(int type, string start_date, string end_date)
+        public List<Double> GetPriceRange(int type, string start_date, string end_date)
         {
-            ArrayList selected = new ArrayList();
+            List<Double> selected = new List<Double>();
             string[] fLines = File.ReadAllLines(data.ToString());
 
             for (int i = 1; i < fLines.Length; i++)
@@ -103,7 +100,7 @@ namespace CSVParser
                 string[] line = fLines[i].Split(',');
                 if (DateTime.Parse(line[0]) > DateTime.Parse(start_date) && DateTime.Parse(line[0]) < DateTime.Parse(end_date))
                 {
-                    selected.Add(line[type]);
+                    selected.Add(Double.Parse(line[type]));
                 }
             }
             return selected;
