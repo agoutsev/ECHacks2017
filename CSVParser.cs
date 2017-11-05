@@ -23,14 +23,19 @@ namespace CSVParser
             string csvQueryMetaData = String.Format("https://www.quandl.com/api/v3/datasets/WIKI/{0}/metadata.csv?api_key=-cgVuGXX5HzSwHStGPPc", company);
 
             var web = new WebClient();
-            
-            
-            
-            web.DownloadFile(csvQueryData, filePathData);
-            web.DownloadFile(csvQueryMetaData, filePathMetaData);
-            data = new FileInfo(filePathData);
-            metadata = new FileInfo(filePathMetaData);
-            
+
+
+            try
+            {
+                web.DownloadFile(csvQueryData, filePathData);
+                web.DownloadFile(csvQueryMetaData, filePathMetaData);
+                data = new FileInfo(filePathData);
+                metadata = new FileInfo(filePathMetaData);
+            }
+            catch(Exception e)
+            {
+                exc = e;
+            }
     
 
             
